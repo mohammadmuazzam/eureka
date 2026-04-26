@@ -1,0 +1,3 @@
+class Virtual_Device {
+
+};
