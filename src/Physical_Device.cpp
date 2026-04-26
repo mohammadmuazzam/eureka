@@ -1,8 +1,13 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
 class Physical_Device
 {
     private:
-        /* data */
+        string device_name;
+                
     public:
-        Physical_Device(/* args */);
-        ~Physical_Device();
+        static vector<Physical_Device> get_connected_devices();
 };
