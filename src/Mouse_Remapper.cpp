@@ -4,11 +4,12 @@
 
 using namespace std;
 
-class Remapper {
+class Mouse_Remapper {
     public:
-        Remapper();
+        Mouse_Remapper();
     private:
         //* from original device to virtual device
         string device_name;
         map <unsigned short, unsigned short> mapping;
+        int threshold_x, threshold_y; //* for scroll sensitivity
 };
