@@ -40,7 +40,7 @@ class Physical_Device
 vector<Physical_Device> Physical_Device::get_connected_devices()
 {
     vector<Physical_Device> devices;
-    string input_dir = "/dev/input";
+    string input_dir = "/dev/input/by-id";
 
     for (const auto& entry : fs::directory_iterator(input_dir)) {
         string path = entry.path().string();

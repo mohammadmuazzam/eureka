@@ -6,7 +6,6 @@
 #include <asm/ioctl.h>
 #include <cstring>
 #include <vector>
-
 #include "Physical_Device.cpp"          //! use header files later
 
 using namespace std;
