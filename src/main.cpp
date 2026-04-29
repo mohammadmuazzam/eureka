@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <asm/ioctl.h>
 #include <cstring>
-
+#include <vector>
 #include "Physical_Device.cpp"          //! use header files later
 
 using namespace std;
@@ -19,7 +19,35 @@ struct uinput_setup setup_uinput_mouse(int v_mouse_fd);
 
 int main()
 {
-    mouse_fd = open("/dev/input/event16", O_RDONLY);
+    //mouse_fd = open("/dev/input/event16", O_RDONLY);
+    // Fetch all connected devices
+    vector<Physical_Device> devices = Physical_Device::get_connected_devices();
+    
+    if (devices.empty()) {
+        cerr << "No devices found. Ensure you are running with sudo." << endl;
+        return 1;
+    }
+
+    // List them in the terminal
+    cout << "--- Available Input Devices ---\n";
+    for (size_t i = 0; i < devices.size(); i++) {
+        cout << "[" << i << "] " << devices[i].get_path() << " : " << devices[i].get_name() << "\n";
+    }
+    cout << "-------------------------------\n";
+
+    // Prompt to select the target device
+    int selected_index;
+    cout << "Select the device index to grab: ";
+    cin >> selected_index;
+
+    // Validate input
+    if (selected_index < 0 || selected_index >= devices.size()) {
+        cerr << "Invalid selection. Exiting." << endl;
+        return 1;
+    }
+
+    // Assign the file descriptor of the selected device to mouse_fd
+    mouse_fd = devices[selected_index].get_fd();
     virtual_fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
 
     if (mouse_fd < 0 || virtual_fd < 0) {
